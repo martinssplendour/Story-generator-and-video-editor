@@ -14,6 +14,7 @@ videos/**/snapshots/
 videos/**/.thumbnails/
 videos/**/.waveform-cache/
 videos/**/.hyperframes/
+videos/**/.media/
 videos/**/capture/
 videos/**/preview.log
 

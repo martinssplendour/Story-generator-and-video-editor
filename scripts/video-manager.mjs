@@ -13,9 +13,16 @@ import {
   projectPath,
   resolveRenderPath,
 } from "../lib/video-workspace.mjs";
+import { prepareVoiceover } from "../lib/elevenlabs-voiceover.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const QUALITY_LEVELS = new Set(["draft", "looks", "delivery"]);
+
+try {
+  process.loadEnvFile(path.join(ROOT, ".env"));
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
 
 function usage() {
   console.log(`Splendoure video workspace
@@ -24,6 +31,7 @@ Usage:
   npm run video -- list [--json]
   npm run video -- create <slug> [--title <title>] [--brief <repo-relative-path>]
   npm run video -- doctor [<slug> | --all] [--json]
+  npm run video -- voiceover <slug> [--force] [--json]
   npm run video -- check <slug> [--strict]
   npm run video -- check --all [--strict]
   npm run video -- preview <slug>
@@ -42,7 +50,7 @@ function parseArguments(argv) {
       continue;
     }
     const key = token.slice(2);
-    if (["all", "approved", "json", "strict"].includes(key)) {
+    if (["all", "approved", "force", "json", "strict"].includes(key)) {
       options[key] = true;
       continue;
     }
@@ -76,6 +84,24 @@ async function selectedProjects(slug, all) {
   if (all) return listProjects(ROOT);
   if (!slug) throw new Error("Provide a project slug or use --all.");
   return [{ slug, directory: projectPath(ROOT, slug) }];
+}
+
+async function prepareProjectVoiceover(slug, { force = false, quiet = false } = {}) {
+  const result = await prepareVoiceover({
+    projectDirectory: projectPath(ROOT, slug),
+    force,
+  });
+  if (!quiet) {
+    if (result.status === "generated") {
+      console.log(
+        `Voiceover generated and synchronized (${result.sourceDuration.toFixed(2)}s source, `
+        + `${result.playbackRate.toFixed(3)}x timeline playback).`,
+      );
+    } else if (result.status === "reused" && result.indexChanged) {
+      console.log(`Voiceover cache reused and timeline synchronized at ${result.playbackRate.toFixed(3)}x.`);
+    }
+  }
+  return result;
 }
 
 async function commandList(options) {
@@ -120,6 +146,20 @@ async function commandDoctor(slug, options) {
   return details.every((project) => project.ok) ? 0 : 1;
 }
 
+async function commandVoiceover(slug, options) {
+  if (!slug) throw new Error("voiceover requires one project slug.");
+  const inspection = await inspectProject(ROOT, slug);
+  if (!inspection.ok) throw new Error(inspection.errors.join(" "));
+  const result = await prepareProjectVoiceover(slug, { force: options.force, quiet: options.json });
+  if (options.json) console.log(JSON.stringify(result, null, 2));
+  else if (["not-configured", "disabled", "waiting-for-narration"].includes(result.status)) {
+    console.log(`Voiceover: ${result.status}.`);
+  } else if (result.status === "reused" && !result.indexChanged) {
+    console.log(`Voiceover is current and synchronized at ${result.playbackRate.toFixed(3)}x.`);
+  }
+  return 0;
+}
+
 async function commandCheck(slug, options) {
   const projects = await selectedProjects(slug, options.all);
   let failed = false;
@@ -131,6 +171,7 @@ async function commandCheck(slug, options) {
       for (const error of inspection.errors) console.error(`  - ${error}`);
       continue;
     }
+    await prepareProjectVoiceover(project.slug);
     console.log(`\nChecking ${project.slug}...`);
     const code = await npmScript(project.slug, "check", options.strict ? ["--strict"] : []);
     if (code !== 0) failed = true;
@@ -142,6 +183,7 @@ async function commandPreview(slug) {
   if (!slug) throw new Error("preview requires one project slug.");
   const inspection = await inspectProject(ROOT, slug);
   if (!inspection.ok) throw new Error(inspection.errors.join(" "));
+  await prepareProjectVoiceover(slug);
   console.log(`Checking ${slug} before preview...`);
   const checkCode = await npmScript(slug, "check");
   if (checkCode !== 0) return checkCode;
@@ -165,6 +207,7 @@ async function commandRender(slug, options) {
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
   }
+  await prepareProjectVoiceover(slug);
   console.log(`Checking ${slug} before render...`);
   const checkCode = await npmScript(slug, "check");
   if (checkCode !== 0) return checkCode;
@@ -191,6 +234,8 @@ async function main() {
       return commandCreate(slug, options);
     case "doctor":
       return commandDoctor(slug, options);
+    case "voiceover":
+      return commandVoiceover(slug, options);
     case "check":
       return commandCheck(slug, options);
     case "preview":

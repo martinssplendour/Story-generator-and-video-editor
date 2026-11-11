@@ -14,7 +14,8 @@
 - Target audience:
 - Platform(s): Instagram / TikTok / Facebook / YouTube / other
 - Duration or slide count:
-- Voice-over: none / voice, accent, age range, and tone
+- Voice-over: none / ElevenLabs voice ID, accent, age range, and tone
+- Approved narration text or source path:
 - Brand colours and fonts:
 - Reference style:
 - Required text:

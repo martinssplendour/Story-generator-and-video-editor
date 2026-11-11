@@ -11,5 +11,7 @@ When asked to generate a campaign:
 5. Never invent product functionality or modify authentic screenshots.
 6. Never commit secrets, `.env` files, private customer data, source media in `inputs/`, or generated media in `outputs/`.
 7. Keep all generated claims verifiable and all important content within vertical-video safe zones.
+8. When narration is approved, place the exact spoken text in the project's `VOICEOVER.txt`. The root video commands automatically generate and synchronize ElevenLabs audio from `voiceover.json`; never add API keys to project files.
+9. For a narration-led video, generate the voiceover before locking scene timing and use `.media/voiceover/timeline.json` for scene and caption timing. Later checks reuse the cached audio unless narration or voice settings changed.
 
 For video production, Codex must use the available HyperFrames workflow and relevant media tools. For still-image post production, use the available image-generation/editing workflow. Follow each installed skill's instructions before acting.

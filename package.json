@@ -12,6 +12,7 @@
     "video:list": "node scripts/video-manager.mjs list",
     "video:new": "node scripts/video-manager.mjs create",
     "video:doctor": "node scripts/video-manager.mjs doctor",
+    "video:voiceover": "node scripts/video-manager.mjs voiceover",
     "video:check": "node scripts/video-manager.mjs check",
     "video:preview": "node scripts/video-manager.mjs preview",
     "video:render": "node scripts/video-manager.mjs render"

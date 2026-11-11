@@ -1,0 +1,2 @@
+# Paste the approved narration below this comment.
+# Comment-only or empty files disable automatic generation.
