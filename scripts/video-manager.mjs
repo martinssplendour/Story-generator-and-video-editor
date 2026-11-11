@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { access, mkdir } from "node:fs/promises";
+import { access, copyFile, mkdir } from "node:fs/promises";
 import { constants } from "node:fs";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -13,7 +13,11 @@ import {
   projectPath,
   resolveRenderPath,
 } from "../lib/video-workspace.mjs";
-import { prepareVoiceover } from "../lib/elevenlabs-voiceover.mjs";
+import {
+  listElevenLabsVoices,
+  prepareVoiceover,
+  selectProjectVoice,
+} from "../lib/elevenlabs-voiceover.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const QUALITY_LEVELS = new Set(["draft", "looks", "delivery"]);
@@ -31,6 +35,8 @@ Usage:
   npm run video -- list [--json]
   npm run video -- create <slug> [--title <title>] [--brief <repo-relative-path>]
   npm run video -- doctor [<slug> | --all] [--json]
+  npm run video -- voices [--search <term>] [--gender <value>] [--age <value>] [--accent <value>] [--language <code>] [--use-case <value>] [--json]
+  npm run video -- voice-select <slug> --voice-id <id> --reason <creative-fit>
   npm run video -- voiceover <slug> [--force] [--json]
   npm run video -- check <slug> [--strict]
   npm run video -- check --all [--strict]
@@ -104,6 +110,19 @@ async function prepareProjectVoiceover(slug, { force = false, quiet = false } = 
   return result;
 }
 
+async function initializeVoiceoverFiles(slug) {
+  const directory = projectPath(ROOT, slug);
+  for (const filename of ["VOICEOVER.txt", "voiceover.json"]) {
+    const destination = path.join(directory, filename);
+    try {
+      await access(destination, constants.F_OK);
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+      await copyFile(path.join(ROOT, "templates", "video-project", filename), destination);
+    }
+  }
+}
+
 async function commandList(options) {
   const projects = await listProjects(ROOT);
   const details = await Promise.all(projects.map(({ slug }) => inspectProject(ROOT, slug)));
@@ -144,6 +163,54 @@ async function commandDoctor(slug, options) {
     }
   }
   return details.every((project) => project.ok) ? 0 : 1;
+}
+
+async function commandVoices(options) {
+  const voices = await listElevenLabsVoices({
+    apiKey: process.env.ELEVENLABS_API_KEY,
+    apiBase: process.env.ELEVENLABS_API_BASE,
+    search: options.search,
+    gender: options.gender,
+    age: options.age,
+    accent: options.accent,
+    language: options.language,
+    useCase: options["use-case"],
+  });
+  if (options.json) {
+    console.log(JSON.stringify(voices, null, 2));
+    return 0;
+  }
+  if (!voices.length) {
+    console.log("No ElevenLabs voices matched the requested filters.");
+    return 0;
+  }
+  for (const voice of voices) {
+    const labels = [
+      voice.labels.gender,
+      voice.labels.age,
+      voice.labels.accent,
+      voice.labels.use_case,
+    ].filter(Boolean).join(", ");
+    console.log(`${voice.name} | ${labels || "unlabelled"} | ${voice.voiceId}`);
+  }
+  return 0;
+}
+
+async function commandVoiceSelect(slug, options) {
+  if (!slug) throw new Error("voice-select requires one project slug.");
+  if (!options["voice-id"]) throw new Error("voice-select requires --voice-id.");
+  if (!options.reason) throw new Error("voice-select requires --reason describing the creative fit.");
+  const inspection = await inspectProject(ROOT, slug);
+  if (!inspection.ok) throw new Error(inspection.errors.join(" "));
+  await initializeVoiceoverFiles(slug);
+  const result = await selectProjectVoice({
+    projectDirectory: projectPath(ROOT, slug),
+    voiceId: options["voice-id"],
+    reason: options.reason,
+  });
+  if (options.json) console.log(JSON.stringify(result, null, 2));
+  else console.log(`Selected ${result.name} for ${slug}.`);
+  return 0;
 }
 
 async function commandVoiceover(slug, options) {
@@ -234,6 +301,10 @@ async function main() {
       return commandCreate(slug, options);
     case "doctor":
       return commandDoctor(slug, options);
+    case "voices":
+      return commandVoices(options);
+    case "voice-select":
+      return commandVoiceSelect(slug, options);
     case "voiceover":
       return commandVoiceover(slug, options);
     case "check":

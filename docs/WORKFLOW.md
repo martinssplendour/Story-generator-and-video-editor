@@ -39,13 +39,13 @@ The command rejects unsafe slugs and existing project directories. It creates on
 
 Produce the emotional angle, hook, storyboard, exact on-screen copy, narration, sound direction, caption, hashtags, and alt text. Stop for approval unless end-to-end production was explicitly requested. Put only the approved spoken narration in `VOICEOVER.txt`; lines beginning with `# ` are comments and are not spoken.
 
-For a narration-led project, the production agent runs `npm run video:voiceover -- campaign-slug` after narration approval, then uses `.media/voiceover/timeline.json` to set scene and caption timing. This is part of the automated production workflow; it does not require a separate user step.
+For a narration-led project, Codex reads the approved brief and narration, runs `npm run video:voices -- --json` with useful filters, compares the available candidates, and records the strongest per-video match with `npm run video:voice-select -- campaign-slug --voice-id <id> --reason "<creative fit>"`. Codex then runs `npm run video:voiceover -- campaign-slug` and uses `.media/voiceover/timeline.json` to set scene and caption timing. These are automatic production-agent steps; they do not require the user to supply a voice ID.
 
 ### 4. Composition production
 
 Build the approved storyboard with HyperFrames. Keep important information in platform-safe zones and preserve authentic supplied media. Use the project's pinned HyperFrames version for deterministic checks and renders.
 
-New projects include `voiceover.json`. Its default `enabled: "auto"` setting activates ElevenLabs only when `VOICEOVER.txt` contains narration. Keep the API key in the root ignored `.env` file. A tracked voice ID is allowed; the API key is not.
+New projects include `voiceover.json`. Its default `enabled: "auto"` setting activates ElevenLabs only when `VOICEOVER.txt` contains narration. Keep only the API key in the root ignored `.env` file. The voice ID, account metadata, and Codex's selection reason are tracked per video in `voiceover.json`; the API key is not.
 
 ### 5. Automated gate
 
@@ -56,7 +56,7 @@ npm run video:check -- campaign-slug
 
 `doctor` checks repository structure. `check` delegates to HyperFrames and runs lint, browser runtime, layout, motion, and contrast audits.
 
-Before HyperFrames validation, `check`, `preview`, and `render` run the automatic voiceover stage. It uses ElevenLabs' timestamped TTS endpoint, reuses unchanged generations, inserts the generated MP3 as a dedicated audio track, and calculates a pitch-preserving playback rate so the narration ends with the composition. Word timing is saved locally under `.media/voiceover/timeline.json` for captions and scene timing.
+Before HyperFrames validation, `check`, `preview`, and `render` run the automatic voiceover stage. It refuses to generate narrated work until Codex has recorded a verified per-video voice choice. It then uses ElevenLabs' timestamped TTS endpoint, reuses unchanged generations, inserts the generated MP3 as a dedicated audio track, and calculates a pitch-preserving playback rate so the narration ends with the composition. Word timing is saved locally under `.media/voiceover/timeline.json` for captions and scene timing.
 
 If narration cannot fit within the safe playback-rate range from `voiceover.json`, the command stops before preview or render. Revise timing instead of silently producing rushed or unnaturally stretched narration.
 

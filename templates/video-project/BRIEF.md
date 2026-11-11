@@ -29,7 +29,7 @@ Describe the intended adult audience and platform context.
 - Platforms: TikTok, Instagram Reels, Facebook Reels, YouTube Shorts
 - Aspect ratio: 9:16
 - Target duration: 10–20 seconds
-- Voice-over: none / ElevenLabs voice ID, accent, age range, and delivery tone
+- Voice-over: none / desired speaker profile, accent, age range, and delivery tone (Codex selects the available ElevenLabs voice)
 - Narration source: `VOICEOVER.txt` (generated automatically before check, preview, and render)
 - Captions:
 

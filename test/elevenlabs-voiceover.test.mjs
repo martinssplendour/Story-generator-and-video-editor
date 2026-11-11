@@ -6,9 +6,11 @@ import test from "node:test";
 import {
   alignmentToWords,
   extractNarration,
+  listElevenLabsVoices,
   normalizeVoiceoverConfig,
   prepareVoiceover,
   readCompositionDuration,
+  selectProjectVoice,
   upsertVoiceoverTrack,
 } from "../lib/elevenlabs-voiceover.mjs";
 
@@ -84,6 +86,64 @@ test("converts character alignment to timeline word timing", () => {
     { text: "Hi", start: 1, end: 2 },
     { text: "all", start: 2.5, end: 4 },
   ]);
+});
+
+test("lists filtered ElevenLabs voices for Codex selection", async () => {
+  const voices = await listElevenLabsVoices({
+    apiKey: "test-key",
+    gender: "female",
+    accent: "nigerian",
+    useCase: "narrative_story",
+    fetchImpl: async (url, options) => {
+      const requestUrl = new URL(url);
+      assert.equal(requestUrl.pathname, "/v2/voices");
+      assert.equal(requestUrl.searchParams.get("gender"), "female");
+      assert.equal(requestUrl.searchParams.get("accent"), "nigerian");
+      assert.equal(requestUrl.searchParams.get("use_cases"), "narrative_story");
+      assert.equal(options.headers["xi-api-key"], "test-key");
+      return new Response(JSON.stringify({
+        voices: [{
+          voice_id: "voice-ayo",
+          name: "Ayo",
+          category: "premade",
+          labels: { gender: "female", accent: "nigerian", use_case: "narrative_story" },
+          description: "Warm, expressive storyteller",
+        }],
+        has_more: false,
+        next_page_token: null,
+      }), { status: 200, headers: { "content-type": "application/json" } });
+    },
+  });
+  assert.deepEqual(voices.map(({ voiceId, name }) => ({ voiceId, name })), [
+    { voiceId: "voice-ayo", name: "Ayo" },
+  ]);
+});
+
+test("records a verified per-video voice selected by Codex", async (t) => {
+  const project = await projectFixture();
+  t.after(() => rm(project, { recursive: true, force: true }));
+  const result = await selectProjectVoice({
+    projectDirectory: project,
+    voiceId: "voice-ayo",
+    reason: "Warm Nigerian storyteller suited to an intimate confession.",
+    env: { ELEVENLABS_API_KEY: "test-key" },
+    fetchImpl: async (url, options) => {
+      assert.match(String(url), /\/v1\/voices\/voice-ayo$/);
+      assert.equal(options.headers["xi-api-key"], "test-key");
+      return new Response(JSON.stringify({
+        voice_id: "voice-ayo",
+        name: "Ayo",
+        category: "premade",
+        labels: { gender: "female", accent: "nigerian" },
+      }), { status: 200, headers: { "content-type": "application/json" } });
+    },
+    now: new Date("2026-11-12T12:00:00.000Z"),
+  });
+  assert.equal(result.name, "Ayo");
+  const config = JSON.parse(await readFile(path.join(project, "voiceover.json"), "utf8"));
+  assert.equal(config.voiceId, "voice-ayo");
+  assert.equal(config.voiceSelection.selectedBy, "codex");
+  assert.match(config.voiceSelection.reason, /intimate confession/);
 });
 
 test("generates timestamped ElevenLabs audio once and reuses the cache", async (t) => {

@@ -76,6 +76,7 @@ When voice-over is requested:
 - Use conversational punctuation and natural pauses.
 - Do not make unverifiable claims or promise outcomes the app cannot guarantee.
 - Treat voice selection, accent, age range, warmth, stability, similarity, and expressiveness as reviewable creative choices.
+- Codex owns the final per-video voice choice: compare available ElevenLabs candidates against the character, audience, setting, and emotional delivery, then record the chosen voice and reason before generation.
 
 ## 6. Approval order
 
