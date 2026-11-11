@@ -1,118 +1,122 @@
 # Story Generator and Video Editor
 
-A self-contained, Codex-driven workflow for creating Splendoure social campaign concepts, captions, still posts, carousels, and short vertical advertisements. It contains no runtime service, API integration, or bundled secret: Codex reads the brief and prompt, uses user-supplied assets, and writes campaign output locally.
+A separate, self-contained workspace for producing Splendoure social campaigns and short-form story videos. The repository combines a Codex creative workflow, reusable project-management code, and editable HyperFrames projects without mixing video production into the Splendoura application repository.
 
-## What is included
+## What lives here
 
 ```text
 Story-generator-and-video-editor/
-|-- AGENTS.md             # Rules Codex automatically follows in this folder
-|-- PROMPT.md             # Creative brief and quality standard
-|-- README.md             # Setup and operating guide
-|-- inputs/               # Local source assets; ignored by Git
-|-- outputs/              # Generated campaign files; ignored by Git
-`-- templates/
-    `-- BRIEF.md          # Copy for each new campaign
+|-- AGENTS.md                 # Operating rules for Codex
+|-- PROMPT.md                 # Splendoure creative and quality standard
+|-- inputs/                   # Private campaign briefs and source media (ignored)
+|-- outputs/                  # Generated previews and final exports (ignored)
+|-- videos/                   # Editable HyperFrames project source
+|-- templates/
+|   |-- BRIEF.md              # Campaign intake template
+|   `-- video-project/        # Starter project used by `video create`
+|-- lib/                      # Reusable workspace logic
+|-- scripts/video-manager.mjs # Safe CLI for project operations
+|-- test/                     # Node test suite
+`-- docs/WORKFLOW.md          # End-to-end operating guide
 ```
 
-The placeholder files keep `inputs/` and `outputs/` present after cloning. Their contents remain local and are excluded from Git.
+Generated renders, snapshots, thumbnails, local caches, campaign inputs, and exported media are deliberately excluded from Git. Composition code, project configuration, storyboards, briefs, and approved reusable assets can be versioned.
 
 ## Requirements
 
-### Required
+- Node.js 22 or newer
+- Git
+- FFmpeg for rendering and media inspection
+- Internet access the first time a pinned HyperFrames CLI version is downloaded
+- Codex with the HyperFrames workflow available for assisted story and composition creation
 
-- Git, for cloning and version control.
-- Codex with access to this repository/workspace.
-- A completed campaign brief based on `templates/BRIEF.md`.
-- Any approved logos, screenshots, photographs, brand fonts, or other source assets.
-
-There are no npm, Python, database, server, or API-key requirements for concept generation.
-
-### Codex requirements
-
-Codex must be able to:
-
-- Read `README.md`, `PROMPT.md`, `AGENTS.md`, the campaign brief, and supplied assets.
-- Write inside this folder, especially `outputs/`.
-- Use image inspection for reference assets.
-- Use the image-generation/editing skill for still-image production when requested.
-- Use HyperFrames and its supporting media skills for video production when requested.
-
-Availability of image and video tools depends on the Codex installation and account. If a production tool is unavailable, the concept, copy, storyboard, and implementation-ready directions can still be generated.
-
-No OpenAI API key is needed when the work is performed through an authenticated Codex session. If this workflow is later integrated into a custom API application, keep `OPENAI_API_KEY` in a local environment or secret manager; never place it in this repository.
+No application database or Splendoura backend is required.
 
 ## Quick start
 
-1. Clone the repository and enter this folder:
-
-   ```powershell
-   git clone https://github.com/martinssplendour/Story-generator-and-video-editor.git
-   cd Story-generator-and-video-editor
-   ```
-
-2. Copy the brief template for a campaign:
-
-   ```powershell
-   Copy-Item templates/BRIEF.md inputs/my-campaign.md
-   ```
-
-3. Put approved source assets in `inputs/`. Use descriptive names such as `home-screen.png`, `logo.svg`, and `event-photo.jpg`.
-
-4. Complete `inputs/my-campaign.md`. Only include claims and product behaviour that can be verified.
-
-5. Ask Codex from this folder:
-
-   ```text
-   Read AGENTS.md, PROMPT.md, and inputs/my-campaign.md. Inspect the referenced assets. Create the concept package only and save it to outputs/my-campaign/concept.md. Do not produce final media until I approve the concept.
-   ```
-
-6. Review the concept and request revisions. After approval, ask Codex to produce the requested still, carousel, or video and export it beneath `outputs/my-campaign/`.
-
-## Recommended campaign workflow
-
-1. **Brief:** Define the audience, platform, message, verified facts, CTA, and constraints.
-2. **Concept:** Generate the hook, emotional angle, copy, storyboard, caption, hashtags, and alt text.
-3. **Review:** Check brand accuracy, product claims, accessibility, and asset permissions.
-4. **Production:** Create the approved visual or motion project.
-5. **Preview:** Review spelling, safe zones, legibility, timing, audio, and screenshot fidelity.
-6. **Export:** Produce platform-ready files without overwriting approved versions.
-
-## Suggested output layout
-
-```text
-outputs/my-campaign/
-|-- concept.md
-|-- caption.txt
-|-- alt-text.txt
-|-- project/          # Editable production source, if applicable
-|-- previews/
-`-- exports/
+```powershell
+npm test
+npm run video:list
+npm run video:doctor
 ```
+
+Create a project from the reusable starter:
+
+```powershell
+npm run video:new -- campaign-name --title "Campaign title"
+```
+
+Optionally start from a completed brief:
+
+```powershell
+npm run video:new -- campaign-name --title "Campaign title" --brief inputs/campaign-name.md
+```
+
+Then ask Codex to read `AGENTS.md`, `PROMPT.md`, and the project's `BRIEF.md`, develop the concept and storyboard, and wait for approval before producing final media.
+
+## Project commands
+
+```powershell
+# Show all editable projects
+npm run video:list
+
+# Validate repository/project structure without launching a browser
+npm run video:doctor
+npm run video:doctor -- campaign-name
+
+# Run the full HyperFrames browser gate
+npm run video:check -- campaign-name
+npm run video:check -- --all
+
+# Open the HyperFrames editor/preview
+npm run video:preview -- campaign-name
+
+# Render only after final preview approval
+npm run video:render -- campaign-name --approved --quality delivery
+```
+
+The render command refuses to run without `--approved`. By default it writes a new timestamped file beneath `outputs/<project>/exports/`, preventing accidental replacement of an approved export.
+
+Run `npm run video -- help` for the complete command reference.
+
+## Existing projects
+
+Six existing Splendoure projects are stored in `videos/`. They remain independent HyperFrames projects with their own pinned CLI versions and can be checked or rendered through the root manager.
+
+The manager intentionally delegates composition validation, preview, and rendering to each project's pinned HyperFrames CLI. It does not replace HyperFrames or duplicate its renderer.
+
+## Campaign workflow
+
+1. Copy and complete `templates/BRIEF.md` under `inputs/`.
+2. Create a named video project with `npm run video:new`.
+3. Generate and review the concept, hook, storyboard, on-screen copy, voice-over, caption, hashtags, and alt text.
+4. Build or revise the HyperFrames composition only after the concept is approved.
+5. Run `npm run video:check -- <project>`.
+6. Open `npm run video:preview -- <project>` and review the assembled timeline.
+7. Render only after final preview approval.
+8. Verify the exported MP4 visually and technically before publishing.
+
+See [docs/WORKFLOW.md](docs/WORKFLOW.md) for the detailed workflow and repository boundaries.
 
 ## Security and privacy
 
-- `inputs/`, `outputs/`, `.env`, and `.env.*` are ignored by this folder's `.gitignore`.
-- Do not put API keys, access tokens, credentials, private customer data, or identity documents in briefs or prompts.
+- Never commit `.env` files, credentials, customer data, identity documents, or private campaign media.
+- `inputs/` and `outputs/` stay local and are ignored by Git.
 - Treat supplied photos, voice samples, and screenshots as private unless publication rights are confirmed.
-- Review `git diff --cached` before every commit.
-- Scan staged files for likely credentials before pushing. Example:
+- Do not invent product capabilities or alter authentic application screenshots.
+- Review staged content before every commit:
 
   ```powershell
   git diff --cached --name-only
-  git grep -n -I -E "(api[_-]?key|secret|token|password|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY)" -- social-media-post-generator
+  git diff --cached
   ```
 
-The scan is a safeguard, not a guarantee. Use GitHub secret scanning where available and rotate any credential immediately if it is ever committed.
-
-## Updating the generator
-
-Edit `PROMPT.md` for creative or output requirements, `templates/BRIEF.md` for campaign inputs, and `AGENTS.md` for Codex operating rules. Keep the folder self-contained and never add generated media or private source assets to version control.
+- If a required source asset must be shared, use an approved asset store or Git LFS rather than bypassing repository limits.
 
 ## Troubleshooting
 
-- **Codex invents a feature:** Add verified product facts and prohibited claims to the brief, then regenerate the affected copy.
-- **Text is hard to read:** Reduce word count, increase contrast and type size, and recheck platform safe zones.
-- **Assets are missing after cloning:** This is intentional; the contents of `inputs/` are private and ignored. Restore them from the approved asset source.
-- **No final media is produced:** The default workflow pauses after the concept package. Explicitly approve it and request production.
-- **A media skill is unavailable:** Generate the concept and implementation directions, then run production in a Codex environment with the required image or HyperFrames capability.
+- **Project not found:** Run `npm run video:list` and use the exact slug.
+- **Project doctor fails:** Restore the required `package.json`, `hyperframes.json`, `index.html`, `BRIEF.md`, or `STORYBOARD.md` file.
+- **HyperFrames is unavailable:** Ensure Node 22+, FFmpeg, and internet access are available, then rerun the project command.
+- **Assets are missing after cloning:** Private inputs and generated outputs are intentionally ignored. Restore them from the approved asset source.
+- **Render command is blocked:** Review the final Studio preview and add `--approved` only after approval.

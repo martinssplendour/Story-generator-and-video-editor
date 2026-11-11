@@ -1,0 +1,28 @@
+<template>
+  <div data-hf-id="hf-scz1" id="scene-dami" data-composition-id="scene-dami" class="frame">
+    <img data-hf-id="hf-1j79" data-layout-allow-overflow class="photo" src="../../assets/images/01-dami-rooftop.png">
+    <div data-hf-id="hf-h5f4" class="veil"></div>
+    <div data-hf-id="hf-xwrx" class="plan-placeholder">
+      <div data-hf-id="hf-38i1" class="brand">◉ SPLENDOURE</div>
+      <div data-hf-id="hf-rswq" class="plan-tabs"><div data-hf-id="hf-0itg" class="pill">Friendship &amp; Fun</div><div data-hf-id="hf-4qf2" class="pill active">Dating</div><div data-hf-id="hf-ij1v" class="pill">Profiles</div></div>
+      <img data-hf-id="hf-67xi" class="plan-photo" src="../../assets/images/gold-plan-photo.png">
+      <div data-hf-id="hf-gy6j" class="plan-title">Mocktail Date at Rapa Nui Lagos</div>
+      <div data-hf-id="hf-1gf1" class="plan-loc">⌖ Victoria Island, Lagos, Nigeria</div>
+      <div data-hf-id="hf-k008" class="plan-row"><b data-hf-id="hf-2jkj">Gold</b> · Lagos, Nigeria</div>
+      <div data-hf-id="hf-451z" class="plan-row"><b data-hf-id="hf-r1eh">Date:</b> 30 Oct 2026</div>
+      <div data-hf-id="hf-t5xq" class="plan-row"><b data-hf-id="hf-oawp">Included:</b> group chat, venue meetup</div>
+    </div>
+    <div data-hf-id="hf-tb5z" class="plan-note">The supplied Gold plan · rebuilt only for the working preview</div>
+    <div data-hf-id="hf-h60x" class="grain"></div>
+    <div data-hf-id="hf-bdx3" class="copy"><div data-hf-id="hf-cb30" class="kicker">Damilola</div><div data-hf-id="hf-7pqh" class="headline small">He was everything I <span data-hf-id="hf-g5m0" class="gold">claimed</span> I wanted.</div><div data-hf-id="hf-2qax" class="body">Handsome. Successful. Emotionally intelligent. The man who remembered Tuesday.</div></div>
+  </div>
+  <script>
+    const tl=gsap.timeline({paused:true});
+    tl.fromTo('.photo',{scale:1.03,x:-18},{scale:1.14,x:18,duration:32,ease:'none'},0)
+      .fromTo('.plan-placeholder',{opacity:0,y:50,scale:.96},{opacity:1,y:0,scale:1,duration:.9,ease:'power3.out'},.2)
+      .to('.plan-placeholder',{opacity:0,y:-40,duration:.8,ease:'power2.in'},7)
+      .to('.plan-note',{opacity:0,duration:.4},7)
+      .fromTo('.copy',{opacity:0,y:55},{opacity:1,y:0,duration:1.1,ease:'power3.out'},7.6);
+    window.__timelines['scene-dami']=tl;
+  </script>
+</template>

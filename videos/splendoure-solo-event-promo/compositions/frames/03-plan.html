@@ -1,0 +1,189 @@
+﻿<template>
+  <style>
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      color: #172033;
+    }
+
+    .clip {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+
+    .f03-plan-ground {
+      background: #ffffff;
+    }
+
+    .f03-plan-stage {
+      overflow: hidden;
+    }
+
+    .f03-plan-copy {
+      position: absolute;
+      top: 82px;
+      left: 58px;
+      width: 964px;
+      height: 118px;
+      overflow: hidden;
+      z-index: 4;
+    }
+
+    .f03-plan-heading {
+      position: absolute;
+      left: 0;
+      top: 0;
+      margin: 0;
+      color: #172033;
+      font-family: sans-serif;
+      font-size: 66px;
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .f03-plan-accent {
+      position: absolute;
+      top: 168px;
+      left: 58px;
+      width: 60px;
+      height: 4px;
+      border-radius: 2px;
+      background: #2463eb;
+      z-index: 4;
+    }
+
+    .f03-plan-surface {
+      position: absolute;
+      left: 48px;
+      top: 226px;
+      width: 984px;
+      height: 1328px;
+      overflow: hidden;
+      border: 1.5px solid rgba(36, 99, 235, 0.2);
+      border-radius: 14px;
+      background: rgba(36, 99, 235, 0.04);
+      z-index: 2;
+    }
+
+    .f03-plan-world {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 984px;
+      height: 1773px;
+      will-change: transform;
+    }
+
+    .f03-plan-shot {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 984px;
+      height: 1773px;
+      object-fit: fill;
+    }
+
+    .f03-plan-marker {
+      position: absolute;
+      inset: 0;
+      width: 984px;
+      height: 1773px;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .f03-plan-marker rect {
+      fill: rgba(36, 99, 235, 0.04);
+      stroke: #2463eb;
+      stroke-width: 3px;
+      stroke-dasharray: 1940;
+      stroke-dashoffset: 1940;
+      vector-effect: non-scaling-stroke;
+    }
+  </style>
+
+  <div data-hf-id="hf-7s6c" id="root" data-composition-id="03-plan" data-width="1080" data-height="1920" data-duration="3.5">
+    <div data-hf-id="hf-gebr" class="clip f03-plan-ground" data-start="0" data-duration="3.5" data-track-index="0"></div>
+
+    <div data-hf-id="hf-nz1l" class="clip f03-plan-stage" data-start="0" data-duration="3.5" data-track-index="1">
+      <div data-hf-id="hf-sqhj" class="f03-plan-copy">
+        <h1 data-hf-id="hf-gemo" class="f03-plan-heading" id="f03-plan-know">KNOW THE PLAN.</h1>
+        <h1 data-hf-id="hf-cdka" class="f03-plan-heading" id="f03-plan-chat">CHAT FIRST.</h1>
+      </div>
+      <div data-hf-id="hf-0cde" class="f03-plan-accent" id="f03-plan-accent"></div>
+
+      <div data-hf-id="hf-282i" class="f03-plan-surface" id="f03-plan-surface">
+        <div data-hf-id="hf-wx9j" class="f03-plan-world" id="f03-plan-world" data-layout-allow-overflow="">
+          <img data-hf-id="hf-36w8" class="f03-plan-shot" src="capture/assets/splendoure-brunch-reference.jpeg" alt="Splendoure brunch event plan showing date, group chat, and venue meetup details">
+          <svg data-hf-id="hf-is7e" class="f03-plan-marker" viewBox="0 0 984 1773" aria-hidden="true">
+            <rect data-hf-id="hf-pcln" id="f03-plan-outline" x="37" y="1310" width="910" height="72" rx="12" ry="12" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script>
+    (() => {
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#f03-plan-surface",
+        { x: 56, opacity: 0.82 },
+        { x: 0, opacity: 1, duration: 0.48, ease: "power2.out" },
+        0
+      );
+      tl.fromTo("#f03-plan-know",
+        { y: 46, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.52, ease: "power2.out" },
+        0.08
+      );
+      tl.fromTo("#f03-plan-accent",
+        { scaleX: 0, transformOrigin: "left center" },
+        { scaleX: 1, duration: 0.38, ease: "power2.out" },
+        0.2
+      );
+      tl.fromTo("#f03-plan-chat",
+        { y: 84, opacity: 0 },
+        { y: 84, opacity: 0, duration: 0.01 },
+        0
+      );
+      tl.fromTo("#f03-plan-world",
+        { y: -182 },
+        { y: -742, duration: 1.0, ease: "power2.inOut" },
+        0.9
+      );
+      tl.to("#f03-plan-know",
+        { y: -78, opacity: 0, duration: 0.34, ease: "power2.in" },
+        0.9
+      );
+      tl.fromTo("#f03-plan-chat",
+        { y: 76, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
+        1.08
+      );
+      tl.to("#f03-plan-outline",
+        { strokeDashoffset: 0, duration: 0.68, ease: "power2.inOut" },
+        1.1
+      );
+      tl.to("#f03-plan-outline",
+        { strokeWidth: 5, opacity: 1, duration: 0.16, ease: "power2.out" },
+        1.9
+      );
+      tl.to("#f03-plan-outline",
+        { strokeWidth: 3, opacity: 0.82, duration: 0.22, ease: "power2.inOut" },
+        2.06
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["03-plan"] = tl;
+    })();
+  </script>
+</template>

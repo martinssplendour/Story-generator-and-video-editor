@@ -1,0 +1,8 @@
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-01.wav'
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-02.wav'
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-03.wav'
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-04.wav'
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-05.wav'
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-06.wav'
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-07.wav'
+file 'C:\Users\HP\Downloads\splendoura app\videos\splendoure-double-life-story\assets\audio\segments\segment-08.wav'

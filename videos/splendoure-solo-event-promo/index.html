@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #FFFFFF;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-qv3y" id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1080" data-height="1920">
+      <div data-hf-id="hf-nat2" id="el-01-hesitation" class="scene" data-composition-id="01-hesitation" data-composition-src="compositions/frames/01-hesitation.html" data-start="0" data-duration="2.5" data-track-index="0"></div>
+
+      <div data-hf-id="hf-ubho" id="el-02-reframe" class="scene" data-composition-id="02-reframe" data-composition-src="compositions/frames/02-reframe.html" data-start="2" data-duration="2.5" data-track-index="1"></div>
+
+      <div data-hf-id="hf-nhv1" id="el-03-plan" class="scene" data-composition-id="03-plan" data-composition-src="compositions/frames/03-plan.html" data-start="4.5" data-duration="3.5" data-track-index="0"></div>
+
+      <div data-hf-id="hf-malp" id="el-04-expectations" class="scene" data-composition-id="04-expectations" data-composition-src="compositions/frames/04-expectations.html" data-start="7.5" data-duration="3" data-track-index="1"></div>
+
+      <div data-hf-id="hf-c7ox" id="el-05-payoff" class="scene" data-composition-id="05-payoff" data-composition-src="compositions/frames/05-payoff.html" data-start="10.5" data-duration="3" data-track-index="0"></div>
+
+      <div data-hf-id="hf-ysdj" id="el-06-join" class="scene" data-composition-id="06-join" data-composition-src="compositions/frames/06-join.html" data-start="13" data-duration="2" data-track-index="1"></div>
+
+      <audio data-hf-id="hf-r4da" id="splendoure-voiceover" src="assets/audio/splendoure-girls-hangout-jessica.mp3" data-start="0.1" data-duration="14.721" data-track-index="10" data-audio-group="voiceover" data-volume="1" preload="auto"></audio>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-hesitation", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 2);
+        tl.fromTo("#el-02-reframe", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 2);
+        tl.to("#el-03-plan", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 7.5);
+        tl.fromTo("#el-04-expectations", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 7.5);
+        tl.to("#el-05-payoff", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 13);
+        tl.fromTo("#el-06-join", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 13);
+        tl.to({}, { duration: 15 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
+    </script>
+  </body>
+</html>

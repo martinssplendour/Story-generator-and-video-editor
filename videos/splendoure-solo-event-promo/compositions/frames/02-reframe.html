@@ -1,0 +1,216 @@
+﻿<template>
+  <style>
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      color: #172033;
+    }
+
+    #f02-reframe-ground {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+
+    #f02-reframe-shot {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    #f02-reframe-media-shell {
+      position: absolute;
+      left: 38px;
+      top: 52px;
+      width: 1004px;
+      height: 1490px;
+      overflow: hidden;
+      border: 1.5px solid rgba(36, 99, 235, 0.2);
+      border-radius: 14px;
+      background: rgba(36, 99, 235, 0.04);
+      transform-origin: 50% 47%;
+      will-change: transform, filter;
+    }
+
+    #f02-reframe-screenshot {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 43%;
+      display: block;
+    }
+
+    #f02-reframe-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(23,32,51,0.04) 52%, rgba(23,32,51,0.16) 100%),
+        linear-gradient(90deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 56%);
+      pointer-events: none;
+    }
+
+    #f02-reframe-copy {
+      position: absolute;
+      left: 58px;
+      top: 164px;
+      width: 820px;
+      padding: 34px 40px 40px;
+      border: 1.5px solid rgba(36, 99, 235, 0.2);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      overflow: hidden;
+    }
+
+    .f02-reframe-line {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      column-gap: 22px;
+      color: #172033;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 0.94;
+      text-transform: uppercase;
+    }
+
+    #f02-reframe-youre {
+      font-size: 88px;
+    }
+
+    #f02-reframe-middle {
+      margin-top: 16px;
+      font-size: 96px;
+    }
+
+    #f02-reframe-alone {
+      margin-top: 12px;
+      font-size: 148px;
+      line-height: 0.9;
+    }
+
+    .f02-reframe-word {
+      position: relative;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    #f02-reframe-not-wrap {
+      position: relative;
+      display: inline-block;
+      z-index: 0;
+    }
+
+    #f02-reframe-not {
+      position: relative;
+      z-index: 2;
+    }
+
+    #f02-reframe-underline {
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      bottom: -9px;
+      height: 9px;
+      border-radius: 6px;
+      background: #2463eb;
+      transform-origin: left center;
+      z-index: 1;
+    }
+
+  </style>
+
+  <div data-hf-id="hf-jotu" id="root" data-composition-id="02-reframe" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-c3eu" id="f02-reframe-ground" class="clip" data-start="0" data-duration="2.5" data-track-index="0"></div>
+
+    <div data-hf-id="hf-d57a" id="f02-reframe-shot" class="clip" data-start="0" data-duration="2.5" data-track-index="1">
+      <div data-hf-id="hf-twm8" id="f02-reframe-media-shell">
+        <img data-hf-id="hf-lt81" id="f02-reframe-screenshot" src="capture/assets/splendoure-brunch-reference.jpeg" alt="">
+        <div data-hf-id="hf-arwd" id="f02-reframe-vignette"></div>
+      </div>
+
+      <div data-hf-id="hf-f5zc" id="f02-reframe-copy">
+        <div data-hf-id="hf-xh46" id="f02-reframe-youre" class="f02-reframe-line">
+          <span data-hf-id="hf-zg7y" class="f02-reframe-word">YOU'RE</span>
+        </div>
+        <div data-hf-id="hf-c7pz" id="f02-reframe-middle" class="f02-reframe-line">
+          <span data-hf-id="hf-owgb" id="f02-reframe-not-wrap" class="f02-reframe-word">
+            <span data-hf-id="hf-f41w" id="f02-reframe-not">NOT</span>
+            <span data-hf-id="hf-slt8" id="f02-reframe-underline"></span>
+          </span>
+          <span data-hf-id="hf-eqcr" id="f02-reframe-joining" class="f02-reframe-word">JOINING</span>
+        </div>
+        <div data-hf-id="hf-yhel" id="f02-reframe-alone" class="f02-reframe-line">
+          <span data-hf-id="hf-ov34" class="f02-reframe-word">ALONE.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["02-reframe"] = tl;
+
+      const media = document.getElementById("f02-reframe-media-shell");
+      const copy = document.getElementById("f02-reframe-copy");
+      const youre = document.getElementById("f02-reframe-youre");
+      const notWord = document.getElementById("f02-reframe-not-wrap");
+      const joining = document.getElementById("f02-reframe-joining");
+      const underline = document.getElementById("f02-reframe-underline");
+      const alone = document.getElementById("f02-reframe-alone");
+
+      tl.fromTo(media,
+        { scale: 1.46, y: 92, filter: "blur(0px)" },
+        { scale: 1, y: 0, filter: "blur(0px)", duration: 1.22, ease: "power3.out" },
+        0
+      );
+
+      tl.fromTo(copy,
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" },
+        0.10
+      );
+      tl.fromTo(youre,
+        { opacity: 0, y: 72 },
+        { opacity: 1, y: 0, duration: 0.48, ease: "power4.out" },
+        0.16
+      );
+
+      tl.fromTo(notWord,
+        { opacity: 0.35, x: 230 },
+        { opacity: 1, x: 0, duration: 0.34, ease: "power4.out" },
+        0.82
+      );
+      tl.fromTo(joining,
+        { opacity: 0.35, x: 230 },
+        { opacity: 1, x: 0, duration: 0.38, ease: "power4.out" },
+        0.91
+      );
+      tl.fromTo(underline,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.34, ease: "power2.out" },
+        1.16
+      );
+
+      tl.fromTo(alone,
+        { opacity: 0.15, scale: 1.25, filter: "blur(10px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" },
+        1.60
+      );
+      tl.to(alone,
+        { scale: 1.015, duration: 0.22, ease: "power2.out" },
+        2.12
+      );
+      tl.to(alone,
+        { scale: 1, duration: 0.16, ease: "power2.inOut" },
+        2.34
+      );
+    })();
+  </script>
+</template>

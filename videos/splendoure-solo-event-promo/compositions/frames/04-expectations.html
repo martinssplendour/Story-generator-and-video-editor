@@ -1,0 +1,211 @@
+﻿<template>
+  <style>
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      color: #172033;
+    }
+
+    .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    .f04-expectations-ground {
+      background: #ffffff;
+    }
+
+    .f04-expectations-accent-plane {
+      position: absolute;
+      top: 126px;
+      right: -150px;
+      width: 760px;
+      height: 1310px;
+      border-radius: 14px;
+      background: rgba(36, 99, 235, 0.08);
+      clip-path: polygon(28% 0, 100% 0, 72% 100%, 0 100%);
+    }
+
+    .f04-expectations-copy {
+      position: absolute;
+      z-index: 4;
+      top: 174px;
+      left: 58px;
+      width: 760px;
+    }
+
+    .f04-expectations-rule {
+      width: 60px;
+      height: 4px;
+      margin-bottom: 28px;
+      border-radius: 2px;
+      background: #2463eb;
+    }
+
+    .f04-expectations-mask {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .f04-expectations-mask + .f04-expectations-mask {
+      margin-top: 10px;
+      margin-left: 38px;
+    }
+
+    .f04-expectations-line {
+      margin: 0;
+      font-size: 69px;
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: #172033;
+      white-space: nowrap;
+    }
+
+    .f04-expectations-surface {
+      position: absolute;
+      z-index: 2;
+      top: 390px;
+      left: 248px;
+      width: 786px;
+      height: 1110px;
+      overflow: hidden;
+      border: 1.5px solid rgba(36, 99, 235, 0.2);
+      border-radius: 14px;
+      background: rgba(36, 99, 235, 0.04);
+    }
+
+    .f04-expectations-world {
+      position: absolute;
+      inset: 0;
+    }
+
+    .f04-expectations-shot {
+      position: absolute;
+      top: -550px;
+      left: 0;
+      width: 786px;
+      height: auto;
+      display: block;
+    }
+
+    .f04-expectations-bracket {
+      position: absolute;
+      z-index: 3;
+      left: 30px;
+      top: 530px;
+      width: 722px;
+      height: 92px;
+      overflow: visible;
+    }
+
+    .f04-expectations-bracket-base,
+    .f04-expectations-bracket-glow {
+      fill: none;
+      rx: 12px;
+      ry: 12px;
+    }
+
+    .f04-expectations-bracket-base {
+      stroke: #2463eb;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1630;
+      stroke-dashoffset: 1630;
+    }
+
+    .f04-expectations-bracket-glow {
+      stroke: rgba(36, 99, 235, 0.15);
+      stroke-width: 22;
+      opacity: 0;
+    }
+
+  </style>
+
+  <div data-hf-id="hf-46tl" id="root" data-composition-id="04-expectations" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-vd4b" class="clip f04-expectations-ground" data-start="0" data-duration="3" data-track-index="0">
+      <div data-hf-id="hf-ntxo" class="f04-expectations-accent-plane"></div>
+    </div>
+
+    <div data-hf-id="hf-qn3c" class="clip" data-start="0" data-duration="3" data-track-index="1">
+      <div data-hf-id="hf-3djs" class="f04-expectations-surface">
+        <div data-hf-id="hf-xpzs" class="f04-expectations-world" data-layout-allow-overflow="">
+          <img data-hf-id="hf-6ite" class="f04-expectations-shot" src="capture/assets/splendoure-brunch-reference.jpeg" alt="Splendoure event details showing Included and Expectations rows">
+          <svg data-hf-id="hf-qcim" class="f04-expectations-bracket" viewBox="0 0 722 92" aria-hidden="true">
+            <rect data-hf-id="hf-ioyo" class="f04-expectations-bracket-glow" x="11" y="11" width="700" height="70" />
+            <rect data-hf-id="hf-blr8" class="f04-expectations-bracket-base" x="11" y="11" width="700" height="70" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-zaz7" class="clip" data-start="0" data-duration="3" data-track-index="2">
+      <div data-hf-id="hf-90ls" class="f04-expectations-copy">
+        <div data-hf-id="hf-ghth" class="f04-expectations-rule"></div>
+        <div data-hf-id="hf-poev" class="f04-expectations-mask">
+          <h2 data-hf-id="hf-npt8" class="f04-expectations-line f04-expectations-line-one">MEET AT THE VENUE.</h2>
+        </div>
+        <div data-hf-id="hf-zxzr" class="f04-expectations-mask">
+          <h2 data-hf-id="hf-kxx2" class="f04-expectations-line f04-expectations-line-two">SHARED EXPECTATIONS.</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["04-expectations"] = tl;
+
+      tl.fromTo(".f04-expectations-surface",
+        { x: 84, opacity: 0.72 },
+        { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
+        0.02
+      );
+      tl.fromTo(".f04-expectations-accent-plane",
+        { scale: 0.94, opacity: 0.35 },
+        { scale: 1, opacity: 1, duration: 0.62, ease: "back.out(1.2)" },
+        0.02
+      );
+      tl.fromTo(".f04-expectations-rule",
+        { scaleX: 0, transformOrigin: "left center" },
+        { scaleX: 1, duration: 0.32, ease: "power3.out" },
+        0.12
+      );
+      tl.fromTo(".f04-expectations-line-one",
+        { xPercent: -104, opacity: 0.5 },
+        { xPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out" },
+        0.18
+      );
+
+      tl.fromTo(".f04-expectations-world",
+        { y: 0 },
+        { y: -78, duration: 0.7, ease: "power3.inOut" },
+        1.1
+      );
+      tl.fromTo(".f04-expectations-line-two",
+        { y: 78, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: "power4.out" },
+        1.18
+      );
+      tl.to(".f04-expectations-bracket-base",
+        { strokeDashoffset: 0, duration: 0.72, ease: "power2.inOut" },
+        1.32
+      );
+      tl.fromTo(".f04-expectations-bracket-glow",
+        { opacity: 0, scale: 0.985, transformOrigin: "center center" },
+        { opacity: 1, scale: 1.015, duration: 0.22, ease: "power2.out" },
+        2.2
+      );
+      tl.to(".f04-expectations-bracket-glow",
+        { opacity: 0.18, scale: 1, duration: 0.38, ease: "power2.out" },
+        2.42
+      );
+    })();
+  </script>
+</template>

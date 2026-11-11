@@ -1,0 +1,11 @@
+{
+  "provider": "auto",
+  "speed": "1.0",
+  "lines": [],
+  "bgm": {
+    "mode": "retrieve",
+    "query": "warm rhythmic Afro-pop/electronic instrumental, 106 BPM, friendly and confident, no vocals",
+    "blob": "You may arrive alone, but Splendoure helps you join a clear social plan",
+    "arc": "Question → Reassurance → Practical proof → Emotional payoff → CTA"
+  }
+}

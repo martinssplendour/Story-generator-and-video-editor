@@ -1,0 +1,19 @@
+{
+  "name": "splendoure-story-generator-and-video-editor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "video": "node scripts/video-manager.mjs",
+    "video:list": "node scripts/video-manager.mjs list",
+    "video:new": "node scripts/video-manager.mjs create",
+    "video:doctor": "node scripts/video-manager.mjs doctor",
+    "video:check": "node scripts/video-manager.mjs check",
+    "video:preview": "node scripts/video-manager.mjs preview",
+    "video:render": "node scripts/video-manager.mjs render"
+  }
+}
